@@ -24,10 +24,27 @@ node_types:
         type: integer
     interfaces:
       cloudify.interfaces.lifecycle:
-        create: scripts/mongo/install-mongo.sh
-        start: scripts/mongo/start-mongo.sh
-        stop: scripts/mongo/stop-mongo.sh
-
+        configure:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2m8/scripts/mongo/install-pymongo.sh
+        create: 
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2m8/scripts/mongo/install-mongo.sh
+        start:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2m8/scripts/mongo/start-mongo.sh  
+        stop:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2m8/scripts/mongo/stop-mongo.sh
+              
 ################################################################
 # Blueprint relationships.
 #
@@ -50,4 +67,8 @@ relationships:
     derived_from: cloudify.relationships.connected_to
     target_interfaces:
       cloudify.interfaces.relationship_lifecycle:
-        postconfigure: scripts/mongo/set-mongo-url.sh
+        postconfigure:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2m8/types/mongo.yaml
