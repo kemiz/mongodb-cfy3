@@ -6,9 +6,9 @@
 tosca_definitions_version: cloudify_dsl_1_0
 
 imports:
-  - http://www.getcloudify.org/spec/cloudify/3.2m8/types.yaml
-  - http://www.getcloudify.org/spec/openstack-plugin/1.2m8/plugin.yaml
-  - http://www.getcloudify.org/spec/diamond-plugin/1.2m8/plugin.yaml
+  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
+  - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
+  - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
   - types/mongo.yaml
 
@@ -84,3 +84,16 @@ node_templates:
           port: { get_property: [ mongod, port ] }
         - remote_ip_prefix: 0.0.0.0/0
           port: 28017
+
+###########################################################
+# This outputs section exposes the application endpoint.
+# You can access it by running:
+#   - cfy deployments -d <deployment_id> outputs
+###########################################################
+
+outputs:
+  server_info:
+    description: Mongo server information
+    value:
+      ip_address: { get_attribute: [ mongod_host, ip ] }
+      port: { get_property: [ mongod, port ] }
