@@ -71,4 +71,4 @@ relationships:
           implementation: script.script_runner.tasks.run
           inputs:
             script_path:
-              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2m8/types/mongo.yaml
+              default: https://raw.githubusercontent.com/kemiz/mongodb-cfy3/3.2-dproxy/scripts/mongo/set-mongo-url.sh
